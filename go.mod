@@ -1,4 +1,4 @@
-module go-idb
+module github.com/ThreeAndTwo/go-idb
 
 go 1.17
 
