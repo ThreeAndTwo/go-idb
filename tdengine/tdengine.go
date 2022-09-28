@@ -3,7 +3,6 @@ package tdengine
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	_ "github.com/taosdata/driver-go/v3/taosSql"
 	"reflect"
 )
@@ -61,7 +60,6 @@ func (db *Database) Insert(val interface{}) error {
 		return errInsertType
 	}
 
-	fmt.Println("111:", val.(string))
 	_, err := db.db.Exec(val.(string))
 	return err
 }
