@@ -102,8 +102,8 @@ func TestGetTS(t *testing.T) {
 					map[string]interface{}{"avg": 24.5, "max": 45.0},
 					time.Now())
 			} else {
-				query = `select * from d0`
-				val = "insert into d0 values(now, 10.2, 219, 0.32)(now+1s,10.2, 219, 0.32)(now+2s,10.2, 219, 0.32)"
+				query = `select * from d0 limit 10`
+				val = "insert into d0 values(NOW, 9.96000, 116, 0.32778)(NOW,10.2, 219, 0.32)(NOW,10.2, 219, 0.32)"
 			}
 			err = ts.Insert(val)
 			if err != nil {
