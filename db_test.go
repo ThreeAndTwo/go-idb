@@ -103,7 +103,7 @@ func TestGetTS(t *testing.T) {
 					time.Now())
 			} else {
 				query = `select * from test.meters`
-				val = "insert into meters values(now, 0)(now+1s,1)(now+2s,2)(now+3s,3)"
+				val = "insert into test.meters values(now, 10.2, 219, 0.32)(now+1s,10.2, 219, 0.32)(now+2s,10.2, 219, 0.32)"
 			}
 			err = ts.Insert(val)
 			if err != nil {
