@@ -2,7 +2,9 @@ package tdengine
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
+	"fmt"
 	_ "github.com/taosdata/driver-go/v3/taosSql"
 	"reflect"
 )
@@ -41,6 +43,10 @@ func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	marshal, _ := json.Marshal(result)
+
+	fmt.Println("result:,", string(marshal))
 
 	var data []interface{}
 	for result.Next() {
