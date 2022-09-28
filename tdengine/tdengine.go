@@ -61,10 +61,10 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 
 	var data []interface{}
 	var _res struct {
-		Ts      time.Time
-		Current float64
-		Voltage int
-		Phase   float64
+		ts      time.Time
+		current float64
+		voltage int
+		phase   float64
 	}
 
 	for result.Next() {
@@ -72,9 +72,10 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 		types, _ := result.ColumnTypes()
 		fmt.Println("columns:", columns)
 		fmt.Println("types:", types[2].DatabaseTypeName())
-		if result.Scan(_res) != nil {
+		if result.Scan(&_res.ts, &_res.current, &_res.voltage, &_res.phase) != nil {
 			return nil, err
 		}
+		fmt.Println("res:::", _res)
 		data = append(data, _res)
 	}
 	return data, nil
