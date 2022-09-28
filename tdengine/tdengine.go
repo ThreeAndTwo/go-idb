@@ -39,6 +39,7 @@ func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
 		return nil, err
 	}
 
+	fmt.Println("raw:", raw)
 	result, err := db.db.Query(raw)
 	if err != nil {
 		return nil, err
