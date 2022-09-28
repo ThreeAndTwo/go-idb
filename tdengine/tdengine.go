@@ -69,7 +69,9 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 
 	for result.Next() {
 		columns, _ := result.Columns()
+		types, _ := result.ColumnTypes()
 		fmt.Println("columns:", columns)
+		fmt.Println("types:", types)
 		if result.Scan(_res) != nil {
 			return nil, err
 		}
