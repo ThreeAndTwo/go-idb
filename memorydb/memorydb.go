@@ -2,7 +2,7 @@ package memorydb
 
 import (
 	"errors"
-	"go-idb/iface"
+	"github.com/ThreeAndTwo/go-idb/iface"
 	"sync"
 )
 

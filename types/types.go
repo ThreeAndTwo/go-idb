@@ -3,10 +3,12 @@ package types
 type DBTy string
 
 const (
-	MemDBTy   DBTy = "memory"
-	GoCacheTy      = "go-cache"
-	RedisDBTy      = "redis"
-	MysqlDBTy      = "mysql"
+	MemDBTy    DBTy = "memory"
+	GoCacheTy       = "go-cache"
+	RedisDBTy       = "redis"
+	MysqlDBTy       = "mysql"
+	InfluxDBTy      = "influxdb"
+	TDEngineTy      = "tdengine"
 )
 
 type FindSqlField struct {

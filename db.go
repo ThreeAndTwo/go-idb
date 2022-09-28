@@ -1,20 +1,21 @@
 package monitordb
 
 import (
+	"database/sql"
 	"errors"
+	"github.com/ThreeAndTwo/go-idb/gocache"
+	"github.com/ThreeAndTwo/go-idb/iface"
+	"github.com/ThreeAndTwo/go-idb/influxdb"
+	"github.com/ThreeAndTwo/go-idb/memorydb"
+	"github.com/ThreeAndTwo/go-idb/mysql"
+	"github.com/ThreeAndTwo/go-idb/redisdb"
+	"github.com/ThreeAndTwo/go-idb/tdengine"
+	"github.com/ThreeAndTwo/go-idb/types"
 	_mysql "github.com/deng00/go-base/db/mysql"
-	"go-idb/gocache"
-	"go-idb/iface"
-	"go-idb/memorydb"
-	"go-idb/mysql"
-	"go-idb/redisdb"
-	"go-idb/types"
+	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 
 	"github.com/deng00/go-base/cache/redis"
 )
-
-type MonitorDB struct {
-}
 
 var (
 	errDBUnSupported = errors.New("unsupported db type")
@@ -50,5 +51,16 @@ func GetSQL(dbTy types.DBTy, client interface{}) (iface.ISQL, error) {
 	default:
 		_client := mysql.New(client.(*_mysql.MySQL))
 		return _client, nil
+	}
+}
+
+func GetTS(dbTy types.DBTy, client interface{}, org, bucket string) (iface.ITSDB, error) {
+	switch dbTy {
+	case types.InfluxDBTy:
+		return influxdb.New(client.(influxdb2.Client), org, bucket)
+	case types.TDEngineTy:
+		return tdengine.New(client.(*sql.DB))
+	default:
+		return nil, errDBUnSupported
 	}
 }

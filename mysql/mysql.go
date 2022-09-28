@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"errors"
+	"github.com/ThreeAndTwo/go-idb/types"
 	"github.com/deng00/go-base/db/mysql"
-	"go-idb/types"
 )
 
 type Database struct {

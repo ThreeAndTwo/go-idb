@@ -1,38 +1,126 @@
 package monitordb
 
 import (
+	"database/sql"
+	"encoding/json"
+	"github.com/ThreeAndTwo/go-idb/types"
 	"github.com/deng00/go-base/cache/redis"
 	"github.com/deng00/go-base/db/mysql"
-	"go-idb/types"
+	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	"testing"
+	"time"
 )
 
 var memoryDB map[string]interface{}
 var redisDB *redis.Redis
 var mysqlDB *mysql.MySQL
+var influxDB influxdb2.Client
+var taosDB *sql.DB
+
+type influxConfig struct {
+	host   string
+	token  string
+	org    string
+	bucket string
+}
+
+var taosUri = "root:taosdata@tcp(localhost:6030)/"
+
+var influxCnf = influxConfig{
+	host:   "http://127.0.0.1:8086",
+	token:  "nABt4rcDA1YEVFEdP3J9fxEGxNUlAcL4YoyQZHIXRJAbKBmUJGRwpZU_3agmr0ThhHyXwK0CawD_gKcaa4tLoA==",
+	org:    "threeandtwo_org",
+	bucket: "dev",
+}
 
 func init() {
-	memoryDB = make(map[string]interface{})
-
-	redisConfig := &redis.Config{
-		Addr:     "127.0.0.1:6379",
-		Pass:     "",
-		DB:       0,
-		PoolSize: 100,
-	}
-
-	_redisClient, err := redis.New(redisConfig)
-	if err != nil {
-		panic("new redis client error:" + err.Error())
-	}
-	redisDB = _redisClient
-
-	//mysqlConfig := new(mysql.Config)
+	//memoryDB = make(map[string]interface{})
 	//
-	//mysqlDB, err = mysql.New(mysqlConfig)
-	//if err != nil {
-	//	panic("new mysql client error:" + err.Error())
+	//redisConfig := &redis.Config{
+	//	Addr:     "127.0.0.1:6379",
+	//	Pass:     "",
+	//	DB:       0,
+	//	PoolSize: 100,
 	//}
+	//
+	//_redisClient, err := redis.New(redisConfig)
+	//if err != nil {
+	//	panic("new redis client error:" + err.Error())
+	//}
+	//redisDB = _redisClient
+
+	//influxDB = influxdb2.NewClient(
+	//	influxCnf.host,
+	//	influxCnf.token,
+	//)
+	//
+	taos, err := sql.Open("taosSql", taosUri)
+	if err != nil {
+		panic("new TDEngine client error:" + err.Error())
+	}
+	taosDB = taos
+}
+
+func TestGetTS(t *testing.T) {
+	tests := []struct {
+		name   string
+		dbTy   types.DBTy
+		client interface{}
+		org    string
+		bucket string
+	}{
+		//{
+		//	name:   "normal influxdb",
+		//	dbTy:   types.InfluxDBTy,
+		//	client: influxDB,
+		//	org:    influxCnf.org,
+		//	bucket: influxCnf.bucket,
+		//},
+		{
+			name:   "normal TDEngine",
+			dbTy:   types.TDEngineTy,
+			client: taosDB,
+			org:    "",
+			bucket: "",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ts, err := GetTS(tt.dbTy, tt.client, tt.org, tt.bucket)
+			if err != nil {
+				t.Errorf("new no sql db error: %s", err.Error())
+				return
+			}
+
+			var query string
+			var val interface{}
+			if tt.dbTy == types.InfluxDBTy {
+				query = `from(bucket:"` + tt.bucket + `")|> range(start: -1h) |> filter(fn: (r) => r._measurement == "stat")`
+				val = influxdb2.NewPoint("stat",
+					map[string]string{"unit": "temperature"},
+					map[string]interface{}{"avg": 24.5, "max": 45.0},
+					time.Now())
+			} else {
+				query = `select * from tb1`
+				val = "insert into tb1 values(now, 0)(now+1s,1)(now+2s,2)(now+3s,3)"
+			}
+			err = ts.Insert(val)
+			if err != nil {
+				t.Errorf("insert data to time-series error: %s", err.Error())
+				return
+			}
+
+			scanData, err := ts.Query(query)
+			if err != nil {
+				t.Errorf("query data to time-series error: %s", err.Error())
+				return
+			}
+
+			marshal, _ := json.Marshal(scanData)
+			t.Logf(string(marshal))
+		})
+	}
 }
 
 func TestGetNoSqlDB(t *testing.T) {

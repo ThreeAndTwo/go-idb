@@ -2,8 +2,8 @@ package gocache
 
 import (
 	"errors"
+	"github.com/ThreeAndTwo/go-idb/iface"
 	"github.com/patrickmn/go-cache"
-	"go-idb/iface"
 	"time"
 )
 

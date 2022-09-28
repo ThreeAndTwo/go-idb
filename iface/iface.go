@@ -1,6 +1,6 @@
 package iface
 
-import "go-idb/types"
+import "github.com/ThreeAndTwo/go-idb/types"
 
 type (
 	INoSQL interface {
@@ -30,5 +30,12 @@ type (
 		Delete(val *types.DeleteField) error
 
 		Raw(raw *types.RawField, res interface{}) error
+	}
+)
+
+type (
+	ITSDB interface {
+		Query(raw string) ([]interface{}, error)
+		Insert(val interface{}) error
 	}
 )
