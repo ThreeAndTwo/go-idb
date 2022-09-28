@@ -9,7 +9,6 @@ import (
 	"github.com/deng00/go-base/db/mysql"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	"testing"
-	"time"
 )
 
 var memoryDB map[string]interface{}
@@ -114,14 +113,7 @@ func TestGetTS(t *testing.T) {
 				return
 			}
 
-			res := struct {
-				ts      time.Time
-				current float64
-				voltage float64
-				phase   float64
-			}{}
-
-			data, err := ts.Query(query, res)
+			data, err := ts.Query(query, nil)
 			if err != nil {
 				t.Errorf("query data to time-series error: %s", err.Error())
 				return
