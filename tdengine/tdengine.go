@@ -42,14 +42,14 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 	var result *sql.Rows
 	var err error
 
-	//fmt.Println("type", )
-	if res == nil || len(res) == 0 {
-		fmt.Println("111")
-		result, err = db.db.Query(raw)
-	} else {
-		fmt.Println("222")
-		result, err = db.db.Query(raw, res)
-	}
+	result, err = db.db.Query(raw)
+	//if res == nil || len(res) == 0 {
+	//	fmt.Println("111")
+	//	result, err = db.db.Query(raw)
+	//} else {
+	//	fmt.Println("222")
+	//	result, err = db.db.Query(raw, res)
+	//}
 
 	if err != nil {
 		return nil, err
