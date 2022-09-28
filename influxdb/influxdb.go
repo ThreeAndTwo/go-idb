@@ -59,7 +59,7 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
+func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error) {
 	if err, ok := db.check(); ok {
 		return nil, err
 	}

@@ -34,13 +34,13 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
+func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error) {
 	if err, ok := db.check(); ok {
 		return nil, err
 	}
 
 	fmt.Println("raw:", raw)
-	result, err := db.db.Query(raw)
+	result, err := db.db.Query(raw, res)
 	if err != nil {
 		return nil, err
 	}
@@ -51,10 +51,11 @@ func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
 
 	var data []interface{}
 	for result.Next() {
-		if result.Scan(res) != nil {
+		var _res interface{}
+		if result.Scan(_res) != nil {
 			return nil, err
 		}
-		data = append(data, res)
+		data = append(data, _res)
 	}
 	return data, nil
 }

@@ -121,7 +121,7 @@ func TestGetTS(t *testing.T) {
 				phase   float64
 			}{}
 
-			data, err := ts.Query(query, &res)
+			data, err := ts.Query(query, res)
 			if err != nil {
 				t.Errorf("query data to time-series error: %s", err.Error())
 				return
