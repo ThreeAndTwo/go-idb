@@ -3,6 +3,7 @@ package tdengine
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	_ "github.com/taosdata/driver-go/v3/taosSql"
 	"reflect"
 	"time"
@@ -67,6 +68,8 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 	}
 
 	for result.Next() {
+		columns, _ := result.Columns()
+		fmt.Println("columns:", columns)
 		if result.Scan(_res) != nil {
 			return nil, err
 		}
