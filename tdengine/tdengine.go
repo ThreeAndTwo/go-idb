@@ -63,13 +63,13 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 
 	for result.Next() {
 		var _res struct {
-			ts      time.Time
-			current float64
-			voltage int
-			phase   float64
+			Ts      time.Time
+			Current float64
+			Voltage int
+			Phase   float64
 		}
 
-		if result.Scan(&_res.ts, &_res.current, &_res.voltage, &_res.phase) != nil {
+		if result.Scan(&_res.Ts, &_res.Current, &_res.Voltage, &_res.Phase) != nil {
 			return nil, err
 		}
 		fmt.Println("res:::", _res)
