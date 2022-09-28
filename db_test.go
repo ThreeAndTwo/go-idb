@@ -24,7 +24,7 @@ type influxConfig struct {
 	bucket string
 }
 
-var taosUri = "root:taosdata@tcp(localhost:6030)/"
+var taosUri = "test:123456@tcp(localhost:6030)/"
 
 var influxCnf = influxConfig{
 	host:   "http://127.0.0.1:8086",
