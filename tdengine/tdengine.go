@@ -61,10 +61,10 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 
 	var data []interface{}
 	var _res struct {
-		ts      time.Time
-		current float64
-		voltage int
-		phase   float64
+		Ts      time.Time
+		Current float64
+		Voltage int
+		Phase   float64
 	}
 
 	for result.Next() {
