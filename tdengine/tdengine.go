@@ -3,7 +3,6 @@ package tdengine
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	_ "github.com/taosdata/driver-go/v3/taosSql"
 	"reflect"
 	"time"
@@ -43,21 +42,9 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 	var err error
 
 	result, err = db.db.Query(query)
-	//if res == nil || len(res) == 0 {
-	//	fmt.Println("111")
-	//	result, err = db.db.Query(raw)
-	//} else {
-	//	fmt.Println("222")
-	//	result, err = db.db.Query(raw, res)
-	//}
-
 	if err != nil {
 		return nil, err
 	}
-
-	//marshal, _ := json.Marshal(result)
-	//
-	//fmt.Println("result:,", string(marshal))
 
 	var data []interface{}
 
@@ -72,7 +59,6 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 		if result.Scan(&_res.Ts, &_res.Current, &_res.Voltage, &_res.Phase) != nil {
 			return nil, err
 		}
-		fmt.Println("res:::", _res)
 		data = append(data, _res)
 	}
 	return data, nil
