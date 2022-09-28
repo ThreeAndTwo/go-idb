@@ -3,9 +3,9 @@ package tdengine
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	_ "github.com/taosdata/driver-go/v3/taosSql"
 	"reflect"
+	"time"
 )
 
 type Database struct {
@@ -33,7 +33,7 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error) {
+func (db *Database) Query(query string, args ...interface{}) ([]interface{}, error) {
 	if err, ok := db.check(); ok {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 	var result *sql.Rows
 	var err error
 
-	result, err = db.db.Query(raw)
+	result, err = db.db.Query(query)
 	//if res == nil || len(res) == 0 {
 	//	fmt.Println("111")
 	//	result, err = db.db.Query(raw)
@@ -57,11 +57,16 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 	//marshal, _ := json.Marshal(result)
 	//
 	//fmt.Println("result:,", string(marshal))
-	fmt.Println("aaaa", result.Next())
 
 	var data []interface{}
+	var _res struct {
+		ts      time.Time
+		current float64
+		voltage float64
+		phase   float64
+	}
+
 	for result.Next() {
-		var _res interface{}
 		if result.Scan(_res) != nil {
 			return nil, err
 		}
