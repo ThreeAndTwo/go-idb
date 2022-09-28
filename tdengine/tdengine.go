@@ -63,7 +63,7 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 	var _res struct {
 		ts      time.Time
 		current float64
-		voltage float64
+		voltage int
 		phase   float64
 	}
 
