@@ -3,6 +3,7 @@ package monitordb
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github.com/ThreeAndTwo/go-idb/types"
 	"github.com/deng00/go-base/cache/redis"
 	"github.com/deng00/go-base/db/mysql"
@@ -93,7 +94,7 @@ func TestGetTS(t *testing.T) {
 			}
 
 			var query string
-			//var val interface{}
+			var val interface{}
 			if tt.dbTy == types.InfluxDBTy {
 				query = `from(bucket:"` + tt.bucket + `")|> range(start: -1h) |> filter(fn: (r) => r._measurement == "stat")`
 				//val = influxdb2.NewPoint("stat",
@@ -101,16 +102,16 @@ func TestGetTS(t *testing.T) {
 				//	map[string]interface{}{"avg": 24.5, "max": 45.0},
 				//	time.Now())
 			} else {
-				query = `select * from d0 limit 10`
-				//val = "insert into d0 values(NOW, 9.96000, 116, 0.32778)"
+				query = `select * from test.d0 limit 10`
+				val = "insert into test.d0 values(NOW, 9.96000, 116, 0.32778)"
 			}
 
-			//fmt.Println(val)
-			//err = ts.Insert(val)
-			//if err != nil {
-			//	t.Errorf("insert data to time-series error: %s", err.Error())
-			//	return
-			//}
+			fmt.Println(val)
+			err = ts.Insert(val)
+			if err != nil {
+				t.Errorf("insert data to time-series error: %s", err.Error())
+				return
+			}
 
 			scanData, err := ts.Query(query)
 			if err != nil {
