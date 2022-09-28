@@ -102,8 +102,8 @@ func TestGetTS(t *testing.T) {
 					map[string]interface{}{"avg": 24.5, "max": 45.0},
 					time.Now())
 			} else {
-				query = `select * from tb1`
-				val = "insert into tb1 values(now, 0)(now+1s,1)(now+2s,2)(now+3s,3)"
+				query = `select * from test.meters`
+				val = "insert into test.meters values(now, 0)(now+1s,1)(now+2s,2)(now+3s,3)"
 			}
 			err = ts.Insert(val)
 			if err != nil {
