@@ -3,6 +3,7 @@ package monitordb
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github.com/ThreeAndTwo/go-idb/types"
 	"github.com/deng00/go-base/cache/redis"
 	"github.com/deng00/go-base/db/mysql"
@@ -103,8 +104,10 @@ func TestGetTS(t *testing.T) {
 					time.Now())
 			} else {
 				query = `select * from d0 limit 10`
-				val = "insert into d0 values(NOW, 9.96000, 116, 0.32778)(NOW,10.2, 219, 0.32)(NOW,10.2, 219, 0.32)"
+				val = "insert into d0 values(NOW, 9.96000, 116, 0.32778)"
 			}
+
+			fmt.Println(val)
 			err = ts.Insert(val)
 			if err != nil {
 				t.Errorf("insert data to time-series error: %s", err.Error())
