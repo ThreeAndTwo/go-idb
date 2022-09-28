@@ -40,7 +40,15 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 	}
 
 	fmt.Println("raw:", raw)
-	result, err := db.db.Query(raw, res)
+	var result *sql.Rows
+	var err error
+
+	if res == nil {
+		result, err = db.db.Query(raw)
+	} else {
+		result, err = db.db.Query(raw, res)
+	}
+
 	if err != nil {
 		return nil, err
 	}
