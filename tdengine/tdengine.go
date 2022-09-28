@@ -38,7 +38,7 @@ func (db *Database) Query(raw string, res ...interface{}) error {
 		return err
 	}
 
-	result, err := db.db.Query(raw, res)
+	result, err := db.db.Query(raw)
 	if err != nil {
 		return err
 	}
