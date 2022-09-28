@@ -60,18 +60,15 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 	//fmt.Println("result:,", string(marshal))
 
 	var data []interface{}
-	var _res struct {
-		ts      time.Time
-		current float64
-		voltage int
-		phase   float64
-	}
 
 	for result.Next() {
-		columns, _ := result.Columns()
-		types, _ := result.ColumnTypes()
-		fmt.Println("columns:", columns)
-		fmt.Println("types:", types[2].DatabaseTypeName())
+		var _res struct {
+			ts      time.Time
+			current float64
+			voltage int
+			phase   float64
+		}
+
 		if result.Scan(&_res.ts, &_res.current, &_res.voltage, &_res.phase) != nil {
 			return nil, err
 		}
