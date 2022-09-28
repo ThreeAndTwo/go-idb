@@ -59,20 +59,21 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string, res ...interface{}) error {
+func (db *Database) Query(raw string, res interface{}) ([]interface{}, error) {
 	if err, ok := db.check(); ok {
-		return err
+		return nil, err
 	}
 
 	result, err := db.db.QueryAPI(db.conf.org).Query(context.Background(), raw)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
+	var data []interface{}
 	for result.Next() {
-		res = append(res, result.Record().Value())
+		data = append(data, result.Record().Value())
 	}
-	return nil
+	return data, nil
 }
 
 func (db *Database) Insert(val interface{}) error {

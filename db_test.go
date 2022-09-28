@@ -114,20 +114,20 @@ func TestGetTS(t *testing.T) {
 				return
 			}
 
-			res := []struct {
+			res := struct {
 				ts      time.Time
 				current float64
 				voltage float64
 				phase   float64
-			}{{}}
+			}{}
 
-			err = ts.Query(query, &res)
+			data, err := ts.Query(query, &res)
 			if err != nil {
 				t.Errorf("query data to time-series error: %s", err.Error())
 				return
 			}
 
-			marshal, _ := json.Marshal(res)
+			marshal, _ := json.Marshal(data)
 			t.Logf(string(marshal))
 		})
 	}
