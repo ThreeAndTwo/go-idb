@@ -43,7 +43,6 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 	var err error
 
 	if len(res) == 0 {
-
 		fmt.Println("111")
 		result, err = db.db.Query(raw)
 	} else {
