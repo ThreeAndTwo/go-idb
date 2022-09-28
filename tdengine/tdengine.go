@@ -32,23 +32,22 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string) ([]interface{}, error) {
+func (db *Database) Query(raw string, res ...interface{}) error {
 	if err, ok := db.check(); ok {
-		return nil, err
+		return err
 	}
 
 	result, err := db.db.Query(raw)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	var data []interface{}
 	for result.Next() {
-		if result.Scan(data) != nil {
-			return nil, err
+		if result.Scan(res) != nil {
+			return err
 		}
 	}
-	return data, nil
+	return nil
 }
 
 func (db *Database) Insert(val interface{}) error {
