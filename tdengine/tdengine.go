@@ -3,9 +3,9 @@ package tdengine
 import (
 	"database/sql"
 	"errors"
-	_ "github.com/taosdata/driver-go/v3/taosSql"
+	"github.com/ThreeAndTwo/go-idb/types"
+	_ "github.com/taosdata/driver-go/v2/taosRestful"
 	"reflect"
-	"time"
 )
 
 type Database struct {
@@ -33,7 +33,7 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(query string, args ...interface{}) ([]interface{}, error) {
+func (db *Database) Query(query string, args ...interface{}) ([]*types.Point, error) {
 	if err, ok := db.check(); ok {
 		return nil, err
 	}
@@ -46,20 +46,14 @@ func (db *Database) Query(query string, args ...interface{}) ([]interface{}, err
 		return nil, err
 	}
 
-	var data []interface{}
-
+	var data []*types.Point
 	for result.Next() {
-		var _res struct {
-			Ts      time.Time
-			Current float64
-			Voltage int
-			Phase   float64
-		}
-
-		if result.Scan(&_res.Ts, &_res.Current, &_res.Voltage, &_res.Phase) != nil {
+		_p := &types.Point{}
+		if err = result.Scan(&_p.TimeStamp, &_p.Value); err != nil {
 			return nil, err
 		}
-		data = append(data, _res)
+
+		data = append(data, _p)
 	}
 	return data, nil
 }

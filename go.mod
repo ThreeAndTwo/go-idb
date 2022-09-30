@@ -6,7 +6,7 @@ require (
 	github.com/deng00/go-base v0.0.8
 	github.com/influxdata/influxdb-client-go/v2 v2.10.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/taosdata/driver-go/v3 v3.0.0
+	github.com/taosdata/driver-go/v2 v2.0.5
 )
 
 require (
@@ -20,6 +20,9 @@ require (
 	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/yuin/gopher-lua v0.0.0-20200816102855-ee81675732da // indirect
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect

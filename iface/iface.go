@@ -35,7 +35,7 @@ type (
 
 type (
 	ITSDB interface {
-		Query(raw string, res ...interface{}) ([]interface{}, error)
+		Query(raw string, res ...interface{}) ([]*types.Point, error)
 		Insert(val interface{}) error
 	}
 )

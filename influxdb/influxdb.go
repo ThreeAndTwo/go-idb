@@ -3,6 +3,7 @@ package influxdb
 import (
 	"context"
 	"errors"
+	"github.com/ThreeAndTwo/go-idb/types"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	"github.com/influxdata/influxdb-client-go/v2/api"
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
@@ -59,7 +60,7 @@ func (db *Database) check() (error, bool) {
 	return nil, false
 }
 
-func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error) {
+func (db *Database) Query(raw string, res ...interface{}) ([]*types.Point, error) {
 	if err, ok := db.check(); ok {
 		return nil, err
 	}
@@ -69,9 +70,13 @@ func (db *Database) Query(raw string, res ...interface{}) ([]interface{}, error)
 		return nil, err
 	}
 
-	var data []interface{}
+	var data []*types.Point
 	for result.Next() {
-		data = append(data, result.Record().Value())
+		_p := &types.Point{
+			TimeStamp: result.Record().Time(),
+			Value:     result.Record().Value(),
+		}
+		data = append(data, _p)
 	}
 	return data, nil
 }

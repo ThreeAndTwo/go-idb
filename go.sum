@@ -249,8 +249,8 @@ github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
-github.com/taosdata/driver-go/v3 v3.0.0 h1:hJScQiBB+ks671kz7r+VYo1J8aF8MDCQzA9uYeby64U=
-github.com/taosdata/driver-go/v3 v3.0.0/go.mod h1:lT4lpI3wo3hXRwP3nzm7xDs/YgYbw5YU58XingVlfsY=
+github.com/taosdata/driver-go/v2 v2.0.5 h1:sHNPKISoGYMTvm2zec7q7vQsvBIlh2Cu3AxzZZxpJ14=
+github.com/taosdata/driver-go/v2 v2.0.5/go.mod h1:ZAb4yDucTytX1Gy69F3nTRV+lEXmjkyF4J6OiYCR9NI=
 github.com/tidwall/gjson v1.2.1/go.mod h1:c/nTNbUr0E0OrXEhq1pwa8iEgc2DOt4ZZqAt1HtCkPA=
 github.com/tidwall/match v1.0.1/go.mod h1:LujAq0jyVjBy028G1WhWfIzbpQfMO8bBZ6Tyb0+pL9E=
 github.com/tidwall/pretty v0.0.0-20190325153808-1166b9ac2b65/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=

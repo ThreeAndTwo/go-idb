@@ -9,6 +9,7 @@ import (
 	"github.com/deng00/go-base/db/mysql"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	"testing"
+	"time"
 )
 
 var memoryDB map[string]interface{}
@@ -24,7 +25,7 @@ type influxConfig struct {
 	bucket string
 }
 
-var taosUri = "test:123456@tcp(localhost:6030)/"
+var taosUri = "root:taosdata@http(localhost:6041)/test"
 
 var influxCnf = influxConfig{
 	host:   "http://127.0.0.1:8086",
@@ -49,12 +50,12 @@ func init() {
 	//}
 	//redisDB = _redisClient
 
-	//influxDB = influxdb2.NewClient(
-	//	influxCnf.host,
-	//	influxCnf.token,
-	//)
-	//
-	taos, err := sql.Open("taosSql", taosUri)
+	influxDB = influxdb2.NewClient(
+		influxCnf.host,
+		influxCnf.token,
+	)
+
+	taos, err := sql.Open("taosRestful", taosUri)
 	if err != nil {
 		panic("new TDEngine client error:" + err.Error())
 	}
@@ -69,13 +70,13 @@ func TestGetTS(t *testing.T) {
 		org    string
 		bucket string
 	}{
-		//{
-		//	name:   "normal influxdb",
-		//	dbTy:   types.InfluxDBTy,
-		//	client: influxDB,
-		//	org:    influxCnf.org,
-		//	bucket: influxCnf.bucket,
-		//},
+		{
+			name:   "normal influxdb",
+			dbTy:   types.InfluxDBTy,
+			client: influxDB,
+			org:    influxCnf.org,
+			bucket: influxCnf.bucket,
+		},
 		{
 			name:   "normal TDEngine",
 			dbTy:   types.TDEngineTy,
@@ -96,13 +97,13 @@ func TestGetTS(t *testing.T) {
 			var query string
 			var val interface{}
 			if tt.dbTy == types.InfluxDBTy {
-				query = `from(bucket:"` + tt.bucket + `")|> range(start: -1h) |> filter(fn: (r) => r._measurement == "stat")`
-				//val = influxdb2.NewPoint("stat",
-				//	map[string]string{"unit": "temperature"},
-				//	map[string]interface{}{"avg": 24.5, "max": 45.0},
-				//	time.Now())
+				query = `from(bucket:"` + tt.bucket + `")|> range(start: -1h) |> filter(fn: (r) => r._measurement == "stat") |> filter(fn: (r) => r["_field"] == "avg") |> filter(fn: (r) => r["unit"] == "temperature")`
+				val = influxdb2.NewPoint("stat",
+					map[string]string{"unit": "temperature"},
+					map[string]interface{}{"avg": 24.5, "max": 45.0},
+					time.Now())
 			} else {
-				query = `select * from test.d0 limit 10`
+				query = `select ts, current from test.d0 limit 10`
 				val = "insert into test.d0 values(NOW, 9.96000, 116, 0.32778)"
 			}
 

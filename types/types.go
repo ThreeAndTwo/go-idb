@@ -1,5 +1,9 @@
 package types
 
+import (
+	"time"
+)
+
 type DBTy string
 
 const (
@@ -10,6 +14,11 @@ const (
 	InfluxDBTy      = "influxdb"
 	TDEngineTy      = "tdengine"
 )
+
+type Point struct {
+	TimeStamp time.Time
+	Value     interface{}
+}
 
 type FindSqlField struct {
 	TBName string
