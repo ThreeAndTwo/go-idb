@@ -6,7 +6,7 @@ require (
 	github.com/deng00/go-base v0.0.8
 	github.com/influxdata/influxdb-client-go/v2 v2.10.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/taosdata/driver-go/v2 v2.0.5
+	github.com/taosdata/driver-go/v3 v3.0.3
 )
 
 require (
@@ -17,6 +17,7 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-redis/redis/v8 v8.11.4 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

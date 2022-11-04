@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/ThreeAndTwo/go-idb/types"
-	_ "github.com/taosdata/driver-go/v2/taosRestful"
+	_ "github.com/taosdata/driver-go/v3/taosRestful"
 	"reflect"
 )
 
