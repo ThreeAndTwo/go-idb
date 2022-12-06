@@ -15,10 +15,9 @@ type Database struct {
 }
 
 type batch struct {
-	db      *Database
-	writes  []keyVal
-	size    int
-	timeout time.Duration
+	db     *Database
+	writes []keyVal
+	size   int
 }
 
 type keyVal struct {
@@ -109,7 +108,7 @@ func (b *batch) Set(keys []string, values []interface{}) error {
 	}
 
 	for k, val := range values {
-		if err := b.db.client.Set(keys[k], val, b.timeout); err != nil {
+		if err := b.db.client.Set(keys[k], val, b.db.timeout); err != nil {
 			return err
 		}
 	}
