@@ -3,6 +3,7 @@ package monitordb
 import (
 	"database/sql"
 	"errors"
+	_mysql "github.com/CoinSummer/go-base/db/mysql"
 	"github.com/ThreeAndTwo/go-idb/gocache"
 	"github.com/ThreeAndTwo/go-idb/iface"
 	"github.com/ThreeAndTwo/go-idb/influxdb"
@@ -11,10 +12,9 @@ import (
 	"github.com/ThreeAndTwo/go-idb/redisdb"
 	"github.com/ThreeAndTwo/go-idb/tdengine"
 	"github.com/ThreeAndTwo/go-idb/types"
-	_mysql "github.com/deng00/go-base/db/mysql"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 
-	"github.com/deng00/go-base/cache/redis"
+	"github.com/CoinSummer/go-base/cache/redis"
 )
 
 var (

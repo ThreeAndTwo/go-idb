@@ -3,8 +3,8 @@ package redisdb
 import (
 	"context"
 	"errors"
+	"github.com/CoinSummer/go-base/cache/redis"
 	"github.com/ThreeAndTwo/go-idb/iface"
-	"github.com/deng00/go-base/cache/redis"
 	"time"
 )
 

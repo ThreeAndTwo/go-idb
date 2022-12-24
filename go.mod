@@ -3,7 +3,7 @@ module github.com/ThreeAndTwo/go-idb
 go 1.17
 
 require (
-	github.com/deng00/go-base v0.0.15
+	github.com/CoinSummer/go-base v0.0.2
 	github.com/influxdata/influxdb-client-go/v2 v2.10.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/taosdata/driver-go/v3 v3.0.3
